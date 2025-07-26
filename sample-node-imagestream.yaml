@@ -1,0 +1,13 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: sample-node-app
+  namespace: ashok-r3-dev
+spec:
+  tags:
+    - name: "1.0"
+      from:
+        kind: DockerImage
+        name: default-route-openshift-image-registry.apps.rm2.thpm.p1.openshiftapps.com/ashok-r3-dev/sample-node-app:1.0
+      importPolicy:
+        insecure: true

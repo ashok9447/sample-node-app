@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-node-app
+  labels:
+    app: sample-node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-node-app
+  template:
+    metadata:
+      labels:
+        app: sample-node-app
+    spec:
+      containers:
+        - name: sample-node-app
+          image: image: default-route-openshift-image-registry.apps.rm2.thpm.p1.openshiftapps.com/ashok-r3-dev/sample-node-app:1.0
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-node-service
+spec:
+  selector:
+    app: sample-node-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: sample-node-route
+spec:
+  to:
+    kind: Service
+    name: sample-node-service
+  port:
+    targetPort: 3000
